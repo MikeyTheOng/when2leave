@@ -2,20 +2,218 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  font-family: 'ArialRounded', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+      --background: 0 0% 100%; /* hsla(0, 0%, 100%, 1) */
+      --foreground: 358 50% 22%; /* hsla(358, 50%, 22%, 1) */
+      --muted: 358 15% 96%; /* hsla(358, 15%, 96%, 1) */
+      --muted-foreground: 358 30% 45%; /* hsla(358, 30%, 45%, 1) */
+      --popover: 358 20% 98%; /* hsla(358, 20%, 98%, 1) */
+      --popover-foreground: 358 50% 15%; /* hsla(358, 50%, 15%, 1) */
+      --border: 358 20% 92%; /* hsla(358, 20%, 92%, 1) */
+      --input: 358 20% 92%; /* hsla(358, 20%, 92%, 1) */
+      --card: 358 20% 98%; /* hsla(358, 20%, 98%, 1) */
+      --card-foreground: 358 50% 15%; /* hsla(358, 50%, 15%, 1) */
+
+      /* Accent and Ring */
+      --accent: 184 42% 95%; /* hsla(184, 42%, 95%, 1) */
+      --accent-foreground: 184 43% 27%; /* hsla(184, 43%, 27%, 1) */
+      --ring: 184 42% 63%; /* hsla(184, 42%, 63%, 1) */
+      --radius: 0.5rem;
+
+      /* Primary Colors */
+      --primary-50: 184 40% 96%; /* hsla(184, 40%, 96%, 1) */
+      --primary-100: 184 41% 89%; /* hsla(184, 41%, 89%, 1) */
+      --primary-200: 184 41% 82%; /* hsla(184, 41%, 82%, 1) */
+      --primary-300: 184 42% 72%; /* hsla(184, 42%, 72%, 1) */
+      --primary-400: 184 42% 63%; /* hsla(184, 42%, 63%, 1) */
+      --primary-500: 184 42% 51%; /* hsla(184, 42%, 51%, 1) */
+      --primary-600: 184 42% 43%; /* hsla(184, 42%, 43%, 1) */
+      --primary-700: 184 42% 38%; /* hsla(184, 42%, 38%, 1) */
+      --primary-800: 184 43% 27%; /* hsla(184, 43%, 27%, 1) */
+      --primary-900: 184 44% 20%; /* hsla(184, 44%, 20%, 1) */
+      --primary-950: 184 45% 10%; /* hsla(184, 45%, 10%, 1) */
+      --primary-foreground: 358 15% 95%; /* hsla(358, 15%, 95%, 1) */
+
+      /* Secondary Colors */
+      --secondary-50: 30 90% 96%; /* hsla(30, 90%, 96%, 1) */
+      --secondary-100: 30 89% 89%; /* hsla(30, 89%, 89%, 1) */
+      --secondary-200: 30 90% 76%; /* hsla(30, 90%, 76%, 1) */
+      --secondary-300: 30 90% 64%; /* hsla(30, 90%, 64%, 1) */
+      --secondary-400: 30 90% 55%; /* hsla(30, 90%, 55%, 1) */
+      --secondary-500: 30 90% 50%; /* hsla(30, 90%, 50%, 1) */
+      --secondary-600: 30 90% 44%; /* hsla(30, 90%, 44%, 1) */
+      --secondary-700: 30 90% 37%; /* hsla(30, 90%, 37%, 1) */
+      --secondary-800: 30 90% 31%; /* hsla(30, 90%, 31%, 1) */
+      --secondary-900: 30 89% 26%; /* hsla(30, 89%, 26%, 1) */
+      --secondary-950: 30 89% 14%; /* hsla(30, 89%, 14%, 1) */
+      --secondary-foreground: 358 15% 95%; /* hsla(358, 15%, 95%, 1) */
+
+      /* Tertiary Colors */
+      --tertiary-50: 32 60% 98%; /* hsla(32, 60%, 98%, 1) */
+      --tertiary-100: 32 60% 90%; /* hsla(32, 60%, 90%, 1) */
+      --tertiary-200: 32 60% 82%; /* hsla(32, 60%, 82%, 1) */
+      --tertiary-300: 32 60% 74%; /* hsla(32, 60%, 74%, 1) */
+      --tertiary-400: 32 60% 69%; /* hsla(32, 60%, 69%, 1) */
+      --tertiary-500: 32 60% 66%; /* hsla(32, 60%, 66%, 1) */
+      --tertiary-600: 32 60% 65%; /* hsla(32, 60%, 65%, 1) */
+      --tertiary-700: 32 60% 64%; /* hsla(32, 60%, 64%, 1) */
+      --tertiary-800: 32 60% 54%; /* hsla(32, 60%, 54%, 1) */
+      --tertiary-900: 32 60% 44%; /* hsla(32, 60%, 44%, 1) */
+      --tertiary-950: 32 60% 34%; /* hsla(32, 60%, 34%, 1) */
+
+      /* Success Colors */
+      --success-50: 160 90% 96%; /* hsla(160, 90%, 96%, 1) */
+      --success-100: 161 89% 93%; /* hsla(161, 89%, 93%, 1) */
+      --success-200: 160 100% 87%; /* hsla(160, 100%, 87%, 1) */
+      --success-300: 160 82% 80%; /* hsla(160, 82%, 80%, 1) */
+      --success-400: 160 68% 52%; /* hsla(160, 68%, 52%, 1) */
+      --success-500: 160 90% 39%; /* hsla(160, 90%, 39%, 1) */
+      --success-600: 160 100% 33%; /* hsla(160, 100%, 33%, 1) */
+      --success-700: 160 100% 24%; /* hsla(160, 100%, 24%, 1) */
+      --success-800: 160 94% 20%; /* hsla(160, 94%, 20%, 1) */
+      --success-900: 160 90% 16%; /* hsla(160, 90%, 16%, 1) */
+      --success-950: 160 96% 9%; /* hsla(160, 96%, 9%, 1) */
+
+      /* Warning Colors */
+      --warning-50: 39 92% 98%; /* hsla(39, 92%, 98%, 1) */
+      --warning-100: 39 92% 90%; /* hsla(39, 92%, 90%, 1) */
+      --warning-200: 39 92% 82%; /* hsla(39, 92%, 82%, 1) */
+      --warning-300: 39 92% 74%; /* hsla(39, 92%, 74%, 1) */
+      --warning-400: 39 92% 65%; /* hsla(39, 92%, 65%, 1) */
+      --warning-500: 39 92% 61%; /* hsla(39, 92%, 61%, 1) */
+      --warning-600: 39 92% 59%; /* hsla(39, 92%, 59%, 1) */
+      --warning-700: 39 92% 57%; /* hsla(39, 92%, 57%, 1) */
+      --warning-800: 39 92% 47%; /* hsla(39, 92%, 47%, 1) */
+      --warning-900: 39 92% 37%; /* hsla(39, 92%, 37%, 1) */
+      --warning-950: 39 92% 27%; /* hsla(39, 92%, 27%, 1) */
+
+      /* Destructive Colors */
+      --destructive-50: 355 85% 97%; /* hsla(355, 85%, 97%, 1) */
+      --destructive-100: 355 84% 93%; /* hsla(355, 84%, 93%, 1) */
+      --destructive-200: 355 82% 88%; /* hsla(355, 82%, 88%, 1) */
+      --destructive-300: 355 80% 79%; /* hsla(355, 80%, 79%, 1) */
+      --destructive-400: 355 78% 60%; /* hsla(355, 78%, 60%, 1) */
+      --destructive-500: 355 80% 57%; /* hsla(355, 80%, 57%, 1) */
+      --destructive-600: 355 82% 51%; /* hsla(355, 82%, 51%, 1) */
+      --destructive-700: 355 84% 42%; /* hsla(355, 84%, 42%, 1) */
+      --destructive-800: 355 85% 35%; /* hsla(355, 85%, 35%, 1) */
+      --destructive-900: 355 86% 31%; /* hsla(355, 86%, 31%, 1) */
+      --destructive-950: 355 87% 15%; /* hsla(355, 87%, 15%, 1) */
+  }
+
+  .dark {
+      --background: 358 50% 8%; /* hsla(358, 50%, 8%, 1) */
+      --foreground: 358 15% 90%; /* hsla(358, 15%, 90%, 1) */
+      --muted: 358 30% 15%; /* hsla(358, 30%, 15%, 1) */
+      --muted-foreground: 358 15% 65%; /* hsla(358, 15%, 65%, 1) */
+      --popover: 358 50% 10%; /* hsla(358, 50%, 10%, 1) */
+      --popover-foreground: 358 15% 90%; /* hsla(358, 15%, 90%, 1) */
+      --border: 358 30% 20%; /* hsla(358, 30%, 20%, 1) */
+      --input: 358 30% 20%; /* hsla(358, 30%, 20%, 1) */
+      --card: 358 50% 10%; /* hsla(358, 50%, 10%, 1) */
+      --card-foreground: 358 15% 90%; /* hsla(358, 15%, 90%, 1) */
+
+      /* Primary Colors - Adjusted for dark mode */
+      --primary-50: 184 45% 10%; /* hsla(184, 45%, 10%, 1) */
+      --primary-100: 184 44% 15%; /* hsla(184, 44%, 15%, 1) */
+      --primary-200: 184 43% 20%; /* hsla(184, 43%, 20%, 1) */
+      --primary-300: 184 42% 25%; /* hsla(184, 42%, 25%, 1) */
+      --primary-400: 184 42% 35%; /* hsla(184, 42%, 35%, 1) */
+      --primary-500: 184 42% 51%; /* hsla(184, 42%, 51%, 1) */
+      --primary-600: 184 41% 65%; /* hsla(184, 41%, 65%, 1) */
+      --primary-700: 184 40% 75%; /* hsla(184, 40%, 75%, 1) */
+      --primary-800: 184 40% 85%; /* hsla(184, 40%, 85%, 1) */
+      --primary-900: 184 40% 90%; /* hsla(184, 40%, 90%, 1) */
+      --primary-950: 184 40% 96%; /* hsla(184, 40%, 96%, 1) */
+      /* Add these variables */
+      --primary-foreground: 358 15% 95%; /* hsla(358, 15%, 95%, 1) */
+
+      /* Secondary Colors - Adjusted for dark mode */
+      --secondary-50: 30 89% 14%; /* hsla(30, 89%, 14%, 1) */
+      --secondary-100: 30 89% 20%; /* hsla(30, 89%, 20%, 1) */
+      --secondary-200: 30 90% 25%; /* hsla(30, 90%, 25%, 1) */
+      --secondary-300: 30 90% 30%; /* hsla(30, 90%, 30%, 1) */
+      --secondary-400: 30 90% 40%; /* hsla(30, 90%, 40%, 1) */
+      --secondary-500: 30 90% 50%; /* hsla(30, 90%, 50%, 1) */
+      --secondary-600: 30 90% 65%; /* hsla(30, 90%, 65%, 1) */
+      --secondary-700: 30 89% 75%; /* hsla(30, 89%, 75%, 1) */
+      --secondary-800: 30 90% 85%; /* hsla(30, 90%, 85%, 1) */
+      --secondary-900: 30 90% 90%; /* hsla(30, 90%, 90%, 1) */
+      --secondary-950: 30 90% 96%; /* hsla(30, 90%, 96%, 1) */
+      --secondary-foreground: 358 15% 95%; /* hsla(358, 15%, 95%, 1) */
+
+      /* Accent and Ring */
+      --accent: 184 42% 25%; /* hsla(184, 42%, 25%, 1) */
+      --accent-foreground: 184 40% 85%; /* hsla(184, 40%, 85%, 1) */
+      --ring: 184 42% 51%; /* hsla(184, 42%, 51%, 1) */
+      --radius: 0.5rem;
+
+      /* Tertiary Colors - Adjusted for dark mode */
+      --tertiary-50: 32 60% 14%; /* hsla(32, 60%, 14%, 1) */
+      --tertiary-100: 32 60% 20%; /* hsla(32, 60%, 20%, 1) */
+      --tertiary-200: 32 60% 25%; /* hsla(32, 60%, 25%, 1) */
+      --tertiary-300: 32 60% 30%; /* hsla(32, 60%, 30%, 1) */
+      --tertiary-400: 32 60% 40%; /* hsla(32, 60%, 40%, 1) */
+      --tertiary-500: 32 60% 50%; /* hsla(32, 60%, 50%, 1) */
+      --tertiary-600: 32 60% 65%; /* hsla(32, 60%, 65%, 1) */
+      --tertiary-700: 32 60% 75%; /* hsla(32, 60%, 75%, 1) */
+      --tertiary-800: 32 60% 85%; /* hsla(32, 60%, 85%, 1) */
+      --tertiary-900: 32 60% 90%; /* hsla(32, 60%, 90%, 1) */
+      --tertiary-950: 32 60% 96%; /* hsla(32, 60%, 96%, 1) */
+
+      /* Success Colors - Adjusted for dark mode */
+      --success-50: 160 96% 9%; /* hsla(160, 96%, 9%, 1) */
+      --success-100: 160 90% 14%; /* hsla(160, 90%, 14%, 1) */
+      --success-200: 160 90% 20%; /* hsla(160, 90%, 20%, 1) */
+      --success-300: 160 90% 25%; /* hsla(160, 90%, 25%, 1) */
+      --success-400: 160 90% 35%; /* hsla(160, 90%, 35%, 1) */
+      --success-500: 160 90% 39%; /* hsla(160, 90%, 39%, 1) */
+      --success-600: 160 82% 65%; /* hsla(160, 82%, 65%, 1) */
+      --success-700: 160 82% 75%; /* hsla(160, 82%, 75%, 1) */
+      --success-800: 160 82% 85%; /* hsla(160, 82%, 85%, 1) */
+      --success-900: 160 82% 90%; /* hsla(160, 82%, 90%, 1) */
+      --success-950: 160 82% 96%; /* hsla(160, 82%, 96%, 1) */
+
+      /* Warning Colors - Adjusted for dark mode */
+      --warning-50: 39 92% 14%; /* hsla(39, 92%, 14%, 1) */
+      --warning-100: 39 92% 20%; /* hsla(39, 92%, 20%, 1) */
+      --warning-200: 39 92% 25%; /* hsla(39, 92%, 25%, 1) */
+      --warning-300: 39 92% 30%; /* hsla(39, 92%, 30%, 1) */
+      --warning-400: 39 92% 40%; /* hsla(39, 92%, 40%, 1) */
+      --warning-500: 39 92% 50%; /* hsla(39, 92%, 50%, 1) */
+      --warning-600: 39 92% 65%; /* hsla(39, 92%, 65%, 1) */
+      --warning-700: 39 92% 75%; /* hsla(39, 92%, 75%, 1) */
+      --warning-800: 39 92% 85%; /* hsla(39, 92%, 85%, 1) */
+      --warning-900: 39 92% 90%; /* hsla(39, 92%, 90%, 1) */
+      --warning-950: 39 92% 96%; /* hsla(39, 92%, 96%, 1) */
+
+      /* Destructive Colors - Adjusted for dark mode */
+      --destructive-50: 355 87% 15%; /* hsla(355, 87%, 15%, 1) */
+      --destructive-100: 355 86% 20%; /* hsla(355, 86%, 20%, 1) */
+      --destructive-200: 355 85% 25%; /* hsla(355, 85%, 25%, 1) */
+      --destructive-300: 355 84% 30%; /* hsla(355, 84%, 30%, 1) */
+      --destructive-400: 355 82% 40%; /* hsla(355, 82%, 40%, 1) */
+      --destructive-500: 355 80% 50%; /* hsla(355, 80%, 50%, 1) */
+      --destructive-600: 355 80% 65%; /* hsla(355, 80%, 65%, 1) */
+      --destructive-700: 355 80% 75%; /* hsla(355, 80%, 75%, 1) */
+      --destructive-800: 355 80% 85%; /* hsla(355, 80%, 85%, 1) */
+      --destructive-900: 355 80% 90%; /* hsla(355, 80%, 90%, 1) */
+      --destructive-950: 355 80% 96%; /* hsla(355, 80%, 96%, 1) */
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
