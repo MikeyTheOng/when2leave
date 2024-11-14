@@ -540,6 +540,72 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-compose-refs@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-compose-refs@npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 047a4ed5f87cb848be475507cd62836cf5af5761484681f521ea543ea7c9d59d61d42806d6208863d5e2380bf38cdf4cff73c2bbe5f52dbbe50fb04e1a13ac72
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-label@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@radix-ui/react-label@npm:2.1.0"
+  dependencies:
+    "@radix-ui/react-primitive": 2.0.0
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 462f3b47f43bd69c937e660dee229eb05990441e1b214923cdcf848aea62226e9f1c4673de6664bb4ad66f8a480acdb0f5d2ce4c88c425652b47432876b3f32f
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-primitive@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@radix-ui/react-primitive@npm:2.0.0"
+  dependencies:
+    "@radix-ui/react-slot": 1.1.0
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 04afc0f3a5ccf1de6e4861f755a89f31640d5a07237c5ac5bffe47bcd8fdf318257961fa56fedc823af49281800ee755752a371561c36fd92f008536a0553748
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-slot@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-slot@npm:1.1.0"
+  dependencies:
+    "@radix-ui/react-compose-refs": 1.1.0
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 3c9cd90aabf08f541e20dbecb581744be01c552a0cd16e90d7c218381bcc5307aa8a6013d045864e692ba89d3d8c17bfae08df18ed18be6d223d9330ab0302fa
+  languageName: node
+  linkType: hard
+
 "@rtsao/scc@npm:^1.1.0":
   version: 1.1.0
   resolution: "@rtsao/scc@npm:1.1.0"
@@ -567,6 +633,35 @@ __metadata:
   dependencies:
     tslib: ^2.4.0
   checksum: d50c2c10da6ef940af423c6b03ad9c3c94cf9de59314b1e921a7d1bcc081a6074481c9d67b655fc8fe66a73288f98b25950743792a63882bfb5793b362494fc0
+  languageName: node
+  linkType: hard
+
+"@tanstack/eslint-plugin-query@npm:^5.60.1":
+  version: 5.60.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.60.1"
+  dependencies:
+    "@typescript-eslint/utils": ^8.3.0
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0
+  checksum: 58c41ba95bf3ba4c8a4ed11a1d95576c721b1ca1fe0e241ea790506925536671c8be323006f07fe1ed187da13e22355d4ba402a9a9f1a12f104ab914dc85f2e7
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.59.20":
+  version: 5.59.20
+  resolution: "@tanstack/query-core@npm:5.59.20"
+  checksum: ed836033c7f34a61e7f152da1067ec170e36e861dc591e2a068f73918bcc641bb50ce90dc3b8d12e047f63f70b2842f72e3328d649c841f5c4ea51fdb95e454b
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.60.2":
+  version: 5.60.2
+  resolution: "@tanstack/react-query@npm:5.60.2"
+  dependencies:
+    "@tanstack/query-core": 5.59.20
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 71d6fe1a0309ffe72583d585071869adb1ac0ae37025b3e2b5aa1199c69f996e4d6e18668a7708de4e4c12a15ecbf56cddc94c54b16bd2260f4b84889626efac
   languageName: node
   linkType: hard
 
@@ -757,7 +852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.14.0":
+"@typescript-eslint/utils@npm:8.14.0, @typescript-eslint/utils@npm:^8.3.0":
   version: 8.14.0
   resolution: "@typescript-eslint/utils@npm:8.14.0"
   dependencies:
@@ -3160,6 +3255,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-themes@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "next-themes@npm:0.4.3"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+  checksum: 23b3a594cf30379868433a16968987ee46f9491ff4f325f1d7b59ab09f22c1540d4ff5414f27ee894813dbc79333bac87276852c5fbe48fcab10571cd720490a
+  languageName: node
+  linkType: hard
+
 "next@npm:15.0.3":
   version: 15.0.3
   resolution: "next@npm:15.0.3"
@@ -4605,6 +4710,9 @@ __metadata:
   resolution: "when2leave@workspace:."
   dependencies:
     "@prisma/client": ^5.22.0
+    "@radix-ui/react-label": ^2.1.0
+    "@tanstack/eslint-plugin-query": ^5.60.1
+    "@tanstack/react-query": ^5.60.2
     "@types/mongodb": ^4.0.7
     "@types/node": ^22.9.0
     "@types/react": ^18
@@ -4617,6 +4725,7 @@ __metadata:
     lucide-react: ^0.456.0
     mongodb: ^6.10.0
     next: 15.0.3
+    next-themes: ^0.4.3
     postcss: ^8
     prisma: ^5.22.0
     react: 19.0.0-rc-66855b96-20241106
