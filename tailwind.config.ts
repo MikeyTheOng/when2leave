@@ -132,9 +132,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				sans: ['ArialRounded', '-apple-system', 'BlinkMacSystemFont',
-					'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif',
-					'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'],
+				rounded: ['var(--font-arial-rounded)'],
 			},
 		}
 	},
