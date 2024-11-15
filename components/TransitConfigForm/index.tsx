@@ -2,12 +2,15 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { TransitConfig } from "@/lib/types";
+import { useRouter } from "next/navigation";
+
 import { Button } from "../shadcn/button";
 import SetWalkingTime from "../setWalkingTime";
 import SelectBusStops from "../selectBusStop";
 import SelectBusServices from "../selectBusServices";
 
 export default function TransitConfigForm() {
+    const router = useRouter();
     const methods = useForm<TransitConfig>({
         defaultValues: {
             walkingTime: 5,
@@ -41,6 +44,7 @@ export default function TransitConfigForm() {
     const onSubmit = (data: TransitConfig) => {
         localStorage.setItem('transitConfig', JSON.stringify(data));
         console.log('Saved transit config to localStorage:', data);
+        router.push('/catch-the-bus');
     };
 
     return (
