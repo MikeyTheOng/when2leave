@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import { BusStop, ServiceNo } from "@/lib/types";
 import useBusServicesSearch from "@/hooks/useBusServicesSearch";
 
@@ -8,39 +9,72 @@ import DidNotSelectBusStopWarning from "./didNotSelectBusStopWarning";
 import { H1 } from "../shared/headers";
 import { Label } from "@/components/shadcn/label";
 
-export default function SelectBusServices({
-    selectedBusStop,
-    selectedBusServices,
-    setSelectedBusServices
-}: {
-    selectedBusStop: BusStop | undefined,
-    selectedBusServices: ServiceNo[] | undefined,
-    setSelectedBusServices: (services: ServiceNo[]) => void
-}) {
+interface FormValues {
+    busStop: BusStop;
+    busServices: ServiceNo[];
+}
+
+export default function SelectBusServices() {
+    const { watch } = useFormContext<FormValues>();
+    const selectedBusStop = watch("busStop");
+
     return (
         <div className="space-y-2">
             <H1>3. Select Bus Services</H1>
-            {
-                selectedBusStop ? <BusServicesCheckBoxes selectedBusStop={selectedBusStop} /> : <DidNotSelectBusStopWarning />
-            }
+            {selectedBusStop ? (
+                <BusServicesCheckBoxes selectedBusStop={selectedBusStop} />
+            ) : (
+                <DidNotSelectBusStopWarning />
+            )}
         </div>
     );
 }
 
 const BusServicesCheckBoxes = ({ selectedBusStop }: { selectedBusStop: BusStop }) => {
+    const { setValue, watch } = useFormContext<FormValues>();
+    const selectedBusServices = watch("busServices") || [];
+
     const { data: busServices, isLoading, error } = useBusServicesSearch(selectedBusStop) as {
-        data: ServiceNo[],
-        isLoading: boolean,
-        error: unknown
+        data: ServiceNo[];
+        isLoading: boolean;
+        error: unknown;
     };
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <SomethingWentWrong />
-    return (<div className="grid grid-cols-4 sm:grid-cols-8 gap-6">
-        {busServices.map(service => <div key={service} className="col-span-1 flex items-center gap-2">
-            <Checkbox id={`checkbox-${service}`} />
-            <Label htmlFor={`checkbox-${service}`}>{service}</Label>
-        </div>)}
-    </div>)
+
+    const handleCheckboxChange = (service: ServiceNo, checked: boolean) => {
+        if (checked) {
+            setValue("busServices", [...selectedBusServices, service], {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        } else {
+            setValue(
+                "busServices",
+                selectedBusServices.filter((s) => s !== service),
+                {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                }
+            );
+        }
+    };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <SomethingWentWrong />;
+
+    return (
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-6">
+            {busServices.map((service) => (
+                <div key={service} className="col-span-1 flex items-center gap-2">
+                    <Checkbox
+                        id={`checkbox-${service}`}
+                        checked={selectedBusServices.includes(service)}
+                        onCheckedChange={(checked) => handleCheckboxChange(service, checked as boolean)}
+                    />
+                    <Label htmlFor={`checkbox-${service}`}>{service}</Label>
+                </div>
+            ))}
+        </div>
+    );
 }
 
 const SomethingWentWrong = () => {
@@ -52,5 +86,5 @@ const SomethingWentWrong = () => {
                 Something went wrong while loading bus services. Please try again.
             </AlertDescription>
         </Alert>
-    )
-}
+    );
+};
