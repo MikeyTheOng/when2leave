@@ -11,7 +11,7 @@ export default function WalkingTimeInput() {
             control={control}
             rules={{
                 required: "Walking time is required",
-                min: { value: 0, message: "Walking time cannot be negative" },
+                min: { value: 1, message: "Walking time cannot be less than 1 minute" },
                 max: { value: 15, message: "Walking time cannot exceed 15 minutes" }
             }}
             render={({ field: { onChange, value } }) => (
@@ -19,7 +19,7 @@ export default function WalkingTimeInput() {
                     value={value}
                     onChange={onChange}
                     defaultValue={5}
-                    minValue={0}
+                    minValue={1}
                     maxValue={15}
                     formatOptions={{
                         style: "unit",

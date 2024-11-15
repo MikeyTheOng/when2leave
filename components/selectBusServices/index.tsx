@@ -15,14 +15,21 @@ interface FormValues {
 }
 
 export default function SelectBusServices() {
-    const { watch } = useFormContext<FormValues>();
+    const { watch, formState: { errors } } = useFormContext<FormValues>();
     const selectedBusStop = watch("busStop");
 
     return (
         <div className="space-y-2">
             <H1>3. Select Bus Services</H1>
             {selectedBusStop ? (
-                <BusServicesCheckBoxes selectedBusStop={selectedBusStop} />
+                <>
+                    <BusServicesCheckBoxes selectedBusStop={selectedBusStop} />
+                    {errors.busServices && (
+                        <p className="text-sm text-red-500 mt-1">
+                            {errors.busServices.message as string}
+                        </p>
+                    )}
+                </>
             ) : (
                 <DidNotSelectBusStopWarning />
             )}
