@@ -1,14 +1,14 @@
 "use client";
 
 import { useForm, FormProvider } from "react-hook-form";
-import { UserTransitConfig } from "@/lib/types";
+import { TransitConfig } from "@/lib/types";
 import { Button } from "../shadcn/button";
 import SetWalkingTime from "../setWalkingTime";
 import SelectBusStops from "../selectBusStop";
 import SelectBusServices from "../selectBusServices";
 
-export default function UserTransitConfigForm() {
-    const methods = useForm<UserTransitConfig>({
+export default function TransitConfigForm() {
+    const methods = useForm<TransitConfig>({
         defaultValues: {
             walkingTime: 5,
             busStop: undefined,
@@ -38,8 +38,8 @@ export default function UserTransitConfigForm() {
         },
     });
 
-    const onSubmit = (data: UserTransitConfig) => {
-        localStorage.setItem('userTransitConfig', JSON.stringify(data));
+    const onSubmit = (data: TransitConfig) => {
+        localStorage.setItem('transitConfig', JSON.stringify(data));
         console.log('Saved transit config to localStorage:', data);
     };
 

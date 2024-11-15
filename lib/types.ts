@@ -30,7 +30,7 @@ export interface BusArrivalInfo {
     Type: string
 }
 
-export interface UserTransitConfig {
+export interface TransitConfig {
     walkingTime: number;
     busStop: BusStop;
     busServices: ServiceNo[];
