@@ -21,30 +21,55 @@ export default function NotificationTimer() {
     const [timeLeft, setTimeLeft] = useState<number>(0);
 
     useEffect(() => {
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(async (registration) => {
-                    // Check if already subscribed
-                    const existingSubscription = await registration.pushManager.getSubscription();
-                    if (existingSubscription) {
-                        setSubscription(existingSubscription);
-                        return;
-                    }
+        // Immediately register service worker when component mounts
+        async function setupPushNotifications() {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                console.warn('Push notifications not supported');
+                return;
+            }
 
-                    // If not subscribed, request permission and subscribe
-                    const permission = await Notification.requestPermission();
-                    if (permission === 'granted') {
-                        const newSubscription = await registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: urlB64ToUint8Array(
-                                process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''
-                            )
-                        });
-                        setSubscription(newSubscription);
-                    }
-                })
-                .catch(console.error);
+            try {
+                // Force update the service worker
+                const registration = await navigator.serviceWorker.register('/sw.js', {
+                    scope: '/',
+                    updateViaCache: 'none'
+                });
+
+                // Wait for the service worker to be ready
+                await navigator.serviceWorker.ready;
+
+                // Check existing subscription
+                const existingSubscription = await registration.pushManager.getSubscription();
+                if (existingSubscription) {
+                    console.log('Existing subscription found:', existingSubscription);
+                    setSubscription(existingSubscription);
+                    return;
+                }
+
+                // Request permission
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') {
+                    throw new Error('Permission not granted for notifications');
+                }
+
+                const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+                if (!vapidKey) {
+                    throw new Error('VAPID key not found');
+                }
+
+                const newSubscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlB64ToUint8Array(vapidKey)
+                });
+
+                console.log('New subscription created:', newSubscription);
+                setSubscription(newSubscription);
+            } catch (error) {
+                console.error('Failed to setup push notifications:', error);
+            }
         }
+
+        setupPushNotifications();
     }, []);
 
     useEffect(() => {
@@ -89,18 +114,22 @@ export default function NotificationTimer() {
                 },
                 body: JSON.stringify({
                     delayInSeconds: secondsNum,
-                    subscription: subscription.toJSON()  // Convert subscription to JSON
+                    subscription: subscription.toJSON(),
+                    title: 'Timer Complete!',  // Add explicit title
+                    body: `Your ${secondsNum}-second timer has finished!`  // Add explicit body
                 })
             });
 
             if (!response.ok) {
-                throw new Error('Failed to schedule notification');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to schedule notification');
             }
 
             setSeconds('');
         } catch (error) {
             console.error('Error scheduling notification:', error);
-            alert('Failed to schedule notification');
+            setIsCountingDown(false);  // Reset countdown if there's an error
+            alert('Failed to schedule notification: ' + (error instanceof Error ? error.message : 'Unknown error'));
         }
     };
 
