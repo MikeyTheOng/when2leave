@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TransitConfig } from '@/lib/types';
 
 export const useTransitConfig = () => {
-    const [transitConfig] = useState<TransitConfig | null>(() => {
+    const [transitConfig, setTransitConfig] = useState<TransitConfig | null>(null);
+
+    useEffect(() => {
         const stored = localStorage.getItem('transitConfig');
-        return stored ? JSON.parse(stored) : null;
-    });
+        if (stored) {
+            setTransitConfig(JSON.parse(stored));
+        }
+    }, []);
 
     return transitConfig;
 };
