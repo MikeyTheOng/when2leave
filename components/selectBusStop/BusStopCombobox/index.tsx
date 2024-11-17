@@ -29,7 +29,8 @@ type BusStopComboboxProps = {
 
 export function BusStopCombobox({ onSelect, value, className }: BusStopComboboxProps) {
     const [open, setOpen] = useState(false)
-    const { search, handleSearch, data: busStops, isLoading } = useBusStopSearch()
+    const { search, handleSearch, data: busStops, isLoading, error } = useBusStopSearch()
+    console.error("error:", error);
     const { formState: { errors } } = useFormContext();
 
     const hasError = errors.busStop;
@@ -66,7 +67,7 @@ export function BusStopCombobox({ onSelect, value, className }: BusStopComboboxP
                         />
                         <CommandList>
                             <CommandEmpty className="py-2 text-center text-sm text-muted-foreground">
-                                {isLoading ? "Searching..." : ""}
+                                {error ? "Failed to fetch bus stops" : isLoading ? "Searching..." : ""}
                             </CommandEmpty>
                             <CommandGroup>
                                 {busStops.map((stop: BusStop) => (
