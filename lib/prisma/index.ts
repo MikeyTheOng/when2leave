@@ -1,8 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { config } from 'dotenv'
-
-// Load .env.local file
-config({ path: '.env.local' })
 
 const prismaClientSingleton = () => {
     if (!process.env.MONGODB_URI) {
