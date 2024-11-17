@@ -34,6 +34,7 @@
     "react-hook-form": "^7.53.2",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "vercel": "^39.0.2",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
