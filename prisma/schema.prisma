@@ -17,3 +17,21 @@ model BusStop {
 
     @@map("BusStops")
 }
+
+model Subscription {
+    id           String           @id @default(auto()) @map("_id") @db.ObjectId
+    subscription PushSubscription
+
+    @@map("Subscriptions")
+}
+
+type PushSubscriptionKeys {
+    p256dh String
+    auth   String
+}
+
+type PushSubscription {
+    endpoint       String
+    expirationTime Int?
+    keys           PushSubscriptionKeys
+}

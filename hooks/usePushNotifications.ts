@@ -1,3 +1,4 @@
+import { Subscription } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
 const SERVICE_WORKER_FILE_PATH = './sw.js'; // * To register service-worker it must be accessible at https://domain.example/sw.js
@@ -9,6 +10,9 @@ interface PushNotificationBody {
     icon?: string;
     url?: string;
 }
+
+// Implemented based on https://medium.com/@ameerezae/implementing-web-push-notifications-in-next-js-a-complete-guide-e21acd89492d
+// https://github.com/ameerezae/web-push-nextjs
 
 export function usePushNotifications() {
     const [subscription, setSubscription] = useState<PushSubscription | null>(null);
@@ -22,6 +26,19 @@ export function usePushNotifications() {
             !('PushManager' in window) ||
             !('showNotification' in ServiceWorkerRegistration.prototype)
         )
+    }, []);
+
+    const registerServiceWorker = useCallback(async (): Promise<ServiceWorkerRegistration> => {
+        try {
+            const registration = await navigator.serviceWorker.register(SERVICE_WORKER_FILE_PATH);
+            console.log('Service Worker registered successfully:', registration);
+            return registration;
+        } catch (e) {
+            const errorMessage = e instanceof Error ? e.message : 'Failed to register service worker';
+            setError(errorMessage);
+            console.error('Failed to register service-worker: ', e);
+            throw new Error(errorMessage);
+        }
     }, []);
 
     const subscribe = useCallback(async (): Promise<void> => {
@@ -47,7 +64,10 @@ export function usePushNotifications() {
             });
 
             console.info('Created subscription Object: ', pushSubscription.toJSON());
-            await submitSubscription(pushSubscription);
+            const subscription = await submitSubscription(pushSubscription);
+
+            localStorage.setItem('subscriptionId', subscription.id);
+
             setSubscription(pushSubscription);
             setError(null);
         } catch (e) {
@@ -59,19 +79,25 @@ export function usePushNotifications() {
 
     const registerAndSubscribe = useCallback(async (): Promise<void> => {
         try {
-            const registration = await navigator.serviceWorker.register(SERVICE_WORKER_FILE_PATH);
-            console.log('Service Worker registered successfully:', registration);
+            await registerServiceWorker();
             await subscribe();
         } catch (e) {
             const errorMessage = e instanceof Error ? e.message : 'Failed to register service worker';
             setError(errorMessage);
             console.error('Failed to register service-worker: ', e);
         }
-    }, [subscribe]);
+    }, [subscribe, registerServiceWorker]);
 
-    async function submitSubscription(subscription: PushSubscription): Promise<void> {
+    // Store subscription in db
+    async function submitSubscription(subscription: PushSubscription): Promise<Subscription> {
         try {
-            const res = await fetch('/api/web-push/subscription', {
+            const subscriptionId = localStorage.getItem('subscriptionId');
+            // Remove the error throw and make the subscriptionId optional in the URL
+            const url = subscriptionId 
+                ? `/api/web-push/subscription?subscriptionId=${subscriptionId}`
+                : '/api/web-push/subscription';
+
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ subscription }),
@@ -82,8 +108,8 @@ export function usePushNotifications() {
                 throw new Error(`Failed to submit subscription: ${res.status} ${errorText}`);
             }
 
-            const result = await res.json();
-            console.log('Subscription submitted:', result);
+            const resData = await res.json();
+            return resData.data;
         } catch (e) {
             const errorMessage = e instanceof Error ? e.message : 'Failed to submit subscription';
             setError(errorMessage);
@@ -93,15 +119,18 @@ export function usePushNotifications() {
 
     const sendPushNotification = useCallback(async (message: string | null): Promise<void> => {
         const pushBody: PushNotificationBody = {
-            title: 'Test Push',
+            title: 'Test Notification',
             body: message ?? 'This is a test push message',
             // image: '/next.png',
             // icon: 'nextjs.png',
-            url: 'https://google.com',
+            url: window.location.origin,
         };
 
         try {
-            const res = await fetch('/api/web-push/send', {
+            const subscriptionId = localStorage.getItem('subscriptionId');
+            if (!subscriptionId) throw new Error('No subscription ID');
+
+            const res = await fetch(`/api/web-push/send?subscriptionId=${subscriptionId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(pushBody),
