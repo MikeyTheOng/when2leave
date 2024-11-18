@@ -65,8 +65,14 @@ export function usePushNotifications() {
 
             console.info('Created subscription Object: ', pushSubscription.toJSON());
             const subscription = await submitSubscription(pushSubscription);
-
+            
+            console.log('Received subscription from server:', subscription);
+            console.log('Attempting to store subscriptionId:', subscription.id);
+            
             localStorage.setItem('subscriptionId', subscription.id);
+            
+            const storedId = localStorage.getItem('subscriptionId');
+            console.log('Verified stored subscriptionId:', storedId);
 
             setSubscription(pushSubscription);
             setError(null);
