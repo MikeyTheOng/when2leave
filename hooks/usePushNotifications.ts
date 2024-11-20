@@ -1,7 +1,7 @@
 import { Subscription } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
-const SERVICE_WORKER_FILE_PATH = './sw.js'; // * To register service-worker it must be accessible at https://domain.example/sw.js
+const SERVICE_WORKER_FILE_PATH = '/sw.js'; // * To register service-worker it must be accessible at https://domain.example/sw.js
 
 interface PushNotificationBody {
     title: string;
