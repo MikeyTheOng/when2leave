@@ -1,7 +1,6 @@
 import { getSubscription } from '@/lib/db/queries/getSubscription';
 import { PushSubscription } from 'web-push';
 import { storeSubscription } from '@/lib/db/queries/storeSubscription';
-import { updateSubscription } from '@/lib/db/queries/updateSubscription';
 import webpush from 'web-push';
 
 webpush.setVapidDetails(
@@ -24,18 +23,20 @@ export async function POST(request: Request) {
 
 async function setSubscription(request: Request) {
   const searchParams = new URL(request.url).searchParams;
-  const subscriptionId = searchParams.get('subscriptionId');
-
+  const subscriptionId = searchParams.get('subscriptionId') || null;
   const body: { subscription: PushSubscription } = await request.json();
 
-  if (!subscriptionId) {
-    console.log("Creating new subscription.");
-    const result = await storeSubscription(body.subscription);
-    return new Response(JSON.stringify({ message: 'Subscription set.', data: result }), {});
-  } else {
-    console.log("Updating existing subscription.");
-    const result = await updateSubscription(subscriptionId, body.subscription);
-    return new Response(JSON.stringify({ message: 'Subscription updated.', data: result }), {});
+  try {
+    const result = await storeSubscription(subscriptionId, body.subscription);
+
+    const message = subscriptionId ? 'Subscription updated.' : 'Subscription created.';
+    return new Response(JSON.stringify({ message, data: result }), {});
+  } catch (error) {
+    console.error('Error setting subscription:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to set subscription' }),
+      { status: 500 }
+    );
   }
 }
 
