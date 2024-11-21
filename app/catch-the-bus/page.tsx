@@ -12,7 +12,6 @@ export default function CatchTheBus() {
 
     useEffect(() => {
         if (!isLoading && transitConfig === null) {
-            console.log("transitConfig:", transitConfig);
             router.push('/transit-config');
         }
     }, [transitConfig, isLoading, router]);
