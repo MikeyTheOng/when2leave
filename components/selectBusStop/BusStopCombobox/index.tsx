@@ -30,7 +30,6 @@ type BusStopComboboxProps = {
 export function BusStopCombobox({ onSelect, value, className }: BusStopComboboxProps) {
     const [open, setOpen] = useState(false)
     const { search, handleSearch, data: busStops, isLoading, error } = useBusStopSearch()
-    console.error("error:", error);
     const { formState: { errors } } = useFormContext();
 
     const hasError = errors.busStop;
