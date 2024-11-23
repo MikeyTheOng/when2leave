@@ -1,17 +1,15 @@
 "use client";
 
-import { useEffect } from 'react';
 import { useTransitConfig } from "@/hooks/useTransitConfig";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/shadcn/button";
-import { H1 } from "@/components/shared/headers";
-import { Alert, AlertDescription, AlertTitle } from "@/components/shadcn/alert";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
 import { useMonitoring } from "@/hooks/useMonitoring";
 
-export default function CatchTheBus() {
-    const router = useRouter();
+import { Alert, AlertDescription, AlertTitle } from "@/components/shadcn/alert";
+import { Button } from "@/components/shadcn/button";
+import { H1 } from "@/components/shared/headers";
+import Link from "next/link";
 
+export default function CatchTheBus() {
     const { transitConfig, isLoading } = useTransitConfig();
     const { isMonitoring, startMonitoring, stopMonitoring } = useMonitoring({
         transitConfig
@@ -23,12 +21,6 @@ export default function CatchTheBus() {
         error: pushError,
         subscribe: registerPushNotifications
     } = usePushNotifications();
-
-    useEffect(() => {
-        if (!isLoading && transitConfig === null) {
-            router.push('/transit-config');
-        }
-    }, [transitConfig, isLoading, router]);
 
     const handleStartMonitoring = async () => {
         if (arePushNotificationsUnsupported()) {
@@ -73,7 +65,15 @@ export default function CatchTheBus() {
                 </Alert>
             )}
 
-            {isMonitoring ? (
+            { !transitConfig ? (
+                <Alert>
+                    <AlertTitle>You&apos;ve to Select Your Bus Stop First!</AlertTitle>
+                    <AlertDescription>
+                        Please select your bus stop and services first! <br/>
+                        <Link href="/transit-config" className="underline hover:text-primary">Go to Transit Config</Link>
+                    </AlertDescription>
+                </Alert>
+            ) : isMonitoring ? (
                 <div className="space-y-4">
                     <Alert>
                         <AlertTitle>Monitoring Bus Arrival Times</AlertTitle>
@@ -87,12 +87,13 @@ export default function CatchTheBus() {
                         className="w-full"
                         onClick={stopMonitoring}
                     >
-                        I Have Left
+                        I Caught The Bus!
                     </Button>
                 </div>
             ) : (
                 <div className="space-y-4">
                     <Alert>
+                        <AlertTitle>Ready to Catch The Bus?</AlertTitle>
                         <AlertDescription>
                             Click below when you&apos;re ready to start monitoring your bus arrival times.
                             {permission !== 'granted' && " You'll need to enable notifications."}
@@ -103,7 +104,7 @@ export default function CatchTheBus() {
                         onClick={handleStartMonitoring}
                         disabled={arePushNotificationsUnsupported()}
                     >
-                        I&apos;m Ready to Leave!
+                        Tell me when my bus is coming!
                     </Button>
                 </div>
             )}
