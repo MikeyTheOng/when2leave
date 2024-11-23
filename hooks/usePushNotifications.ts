@@ -31,7 +31,7 @@ export function usePushNotifications() {
     const registerServiceWorker = useCallback(async (): Promise<ServiceWorkerRegistration> => {
         try {
             const registration = await navigator.serviceWorker.register(SERVICE_WORKER_FILE_PATH);
-            console.log('Service Worker registered successfully:', registration);
+            // console.log('Service Worker registered successfully:', registration); // ! Debugging
             return registration;
         } catch (e) {
             const errorMessage = e instanceof Error ? e.message : 'Failed to register service worker';
@@ -63,16 +63,16 @@ export function usePushNotifications() {
                 applicationServerKey: vapidKey,
             });
 
-            console.info('Created subscription Object: ', pushSubscription.toJSON());
+            // console.info('Created subscription Object: ', pushSubscription.toJSON()); // ! Debugging
             const subscription = await submitSubscription(pushSubscription);
             
-            console.log('Received subscription from server:', subscription);
-            console.log('Attempting to store subscriptionId:', subscription.id);
+            // console.log('Received subscription from server:', subscription); // ! Debugging
+            // console.log('Attempting to store subscriptionId:', subscription.id); // ! Debugging
             
             localStorage.setItem('subscriptionId', subscription.id);
             
-            const storedId = localStorage.getItem('subscriptionId');
-            console.log('Verified stored subscriptionId:', storedId);
+            // const storedId = localStorage.getItem('subscriptionId'); // ! Debugging
+            // console.log('Verified stored subscriptionId:', storedId); // ! Debugging
 
             setSubscription(pushSubscription);
             setError(null);
