@@ -1,8 +1,9 @@
-import "./globals.css";
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/shared/navbar";
+import { arialRounded } from './fonts';
+import "./globals.css";
 import Providers from "./providers";
-import { arialRounded } from './fonts'
-import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,6 +24,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           <Providers>
             {children}
           </Providers>
