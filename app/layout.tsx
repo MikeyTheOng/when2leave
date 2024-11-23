@@ -24,9 +24,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
           <Providers>
-            {children}
+            <main className="h-screen">
+              <Navbar />
+              {children}
+            </main>
           </Providers>
         </ThemeProvider>
       </body>

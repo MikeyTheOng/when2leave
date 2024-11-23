@@ -6,7 +6,7 @@ export default function Navbar() {
     const pathname = usePathname()
     
     return (
-        <nav className="z-50 
+        <nav className="z-50
             px-6 py-[10px] bg-primary text-white flex flex-col gap-1 text-sm tracking-tight sm:flex-row sm:items-center sm:gap-4 sm:text-base sm:tracking-normal 
             [&_a]:font-semibold [&_a]:rounded-md [&_a]:ring-transparent [&_a]:transition-colors [&_a]:duration-150 
             [&_a:hover]:text-black [&_a:hover]:underline
