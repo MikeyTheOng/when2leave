@@ -69,7 +69,7 @@ const BusServicesCheckBoxes = ({ selectedBusStop }: { selectedBusStop: BusStop }
     if (error) return <SomethingWentWrong />;
 
     return (
-        <div className="grid grid-cols-4 sm:grid-cols-5 gap-6 bg-white p-4 rounded-lg border">
+        <div className="grid grid-cols-4 sm:grid-cols-5 gap-6 bg-background p-4 rounded-lg border">
             <p className="col-span-full text-sm">Buses that currently available at <span className="underline">{selectedBusStop.Description} ({selectedBusStop.BusStopCode})</span></p>
             {busServices.map((service) => (
                 <div key={service} className="col-span-1 flex items-center gap-2">
