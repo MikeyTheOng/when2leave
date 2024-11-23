@@ -69,7 +69,8 @@ const BusServicesCheckBoxes = ({ selectedBusStop }: { selectedBusStop: BusStop }
     if (error) return <SomethingWentWrong />;
 
     return (
-        <div className="grid grid-cols-4 sm:grid-cols-8 gap-6">
+        <div className="grid grid-cols-4 sm:grid-cols-5 gap-6 bg-white p-4 rounded-lg border">
+            <p className="col-span-full text-sm">Buses that currently available at <span className="underline">{selectedBusStop.Description} ({selectedBusStop.BusStopCode})</span></p>
             {busServices.map((service) => (
                 <div key={service} className="col-span-1 flex items-center gap-2">
                     <Checkbox
@@ -77,7 +78,9 @@ const BusServicesCheckBoxes = ({ selectedBusStop }: { selectedBusStop: BusStop }
                         checked={selectedBusServices.includes(service)}
                         onCheckedChange={(checked) => handleCheckboxChange(service, checked as boolean)}
                     />
-                    <Label htmlFor={`checkbox-${service}`}>{service}</Label>
+                    <Label htmlFor={`checkbox-${service}`} className="text-sm">
+                        {service}
+                    </Label>
                 </div>
             ))}
         </div>
