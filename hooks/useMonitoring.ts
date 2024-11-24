@@ -15,6 +15,11 @@ export function useMonitoring({ transitConfig }: UseMonitoringProps): UseMonitor
     const [isMonitoring, setIsMonitoring] = useState(false);
 
     useEffect(() => {
+        if (!('serviceWorker' in navigator)) {
+            console.warn('Service Workers are not supported in this environment');
+            return;
+        }
+
         const messageHandler = (event: MessageEvent) => {
             if (event.data.type === 'MONITORING_STATE') {
                 setIsMonitoring(event.data.isMonitoring);

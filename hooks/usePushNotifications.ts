@@ -20,11 +20,12 @@ export function usePushNotifications() {
     const [error, setError] = useState<string | null>(null);
 
     // Checks if the browser supports push notifications
-    const arePushNotificationsUnsupported = useCallback(() => {
+    const isPushNotificationsSupported = useCallback(() => {
         return (
-            !('serviceWorker' in navigator) ||
-            !('PushManager' in window) ||
-            !('showNotification' in ServiceWorkerRegistration.prototype)
+            'serviceWorker' in navigator &&
+            'PushManager' in window &&
+            'showNotification' in ServiceWorkerRegistration.prototype &&
+            'Notification' in window
         )
     }, []);
 
@@ -65,12 +66,12 @@ export function usePushNotifications() {
 
             // console.info('Created subscription Object: ', pushSubscription.toJSON()); // ! Debugging
             const subscription = await submitSubscription(pushSubscription);
-            
+
             // console.log('Received subscription from server:', subscription); // ! Debugging
             // console.log('Attempting to store subscriptionId:', subscription.id); // ! Debugging
-            
+
             localStorage.setItem('subscriptionId', subscription.id);
-            
+
             // const storedId = localStorage.getItem('subscriptionId'); // ! Debugging
             // console.log('Verified stored subscriptionId:', storedId); // ! Debugging
 
@@ -99,7 +100,7 @@ export function usePushNotifications() {
         try {
             const subscriptionId = localStorage.getItem('subscriptionId');
             // Remove the error throw and make the subscriptionId optional in the URL
-            const url = subscriptionId 
+            const url = subscriptionId
                 ? `/api/web-push/subscription?subscriptionId=${subscriptionId}`
                 : '/api/web-push/subscription';
 
@@ -158,19 +159,21 @@ export function usePushNotifications() {
     }, []);
 
     useEffect(() => {
-        setPermission(Notification.permission);
+        if (isPushNotificationsSupported()) {
+            setPermission(Notification.permission);
 
-        if (permission === 'granted') {
-            registerAndSubscribe();
-        } else {
-            Notification.requestPermission().then((permission) => {
-                setPermission(permission);
-            });
+            if (permission === 'granted') {
+                registerAndSubscribe();
+            } else {
+                Notification.requestPermission().then((permission) => {
+                    setPermission(permission);
+                });
+            }
         }
-    }, [permission, registerAndSubscribe]);
+    }, [permission, registerAndSubscribe, isPushNotificationsSupported]);
 
     return {
-        arePushNotificationsUnsupported,
+        isPushNotificationsSupported,
         subscription,
         permission,
         error,
