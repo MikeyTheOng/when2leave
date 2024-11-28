@@ -94,10 +94,9 @@ async function checkBusArrival(busStopCode, busServices, walkingTime) {
 function getSelectedBusArrivalTimes(busArrivals, busServices) {
     const selectedTimes = {};
     for (const bus of busServices) {
-        const busArrivalsForBus = busArrivals[bus]?.[0];
-        if (busArrivalsForBus) {
-            selectedTimes[bus] = busArrivalsForBus;
-        }
+        // Get all arrival times for this bus service and store them
+        const busArrivalsForBus = busArrivals[bus] || [];
+        selectedTimes[bus] = busArrivalsForBus;
     }
     return selectedTimes;
 }
@@ -105,11 +104,15 @@ function getSelectedBusArrivalTimes(busArrivals, busServices) {
 function getBusesWithinWalkingTime(arrivalTimes, walkingTime) {
     const eligibleBuses = {};
     for (const bus in arrivalTimes) {
-        const arrivalTime = arrivalTimes[bus];
-        if (arrivalTime >= walkingTime && arrivalTime <= walkingTime + 2) {
-            // console.log(`Bus ${bus} arrives in ${arrivalTime} minutes`); // ! Debugging
-            eligibleBuses[bus] = arrivalTime;
-        }
+        // Check each arrival time for this bus
+        arrivalTimes[bus].forEach(arrivalTime => {
+            if (arrivalTime >= walkingTime && arrivalTime <= walkingTime + 2) {
+                // If multiple buses of same service are eligible, keep the earliest one
+                if (!eligibleBuses[bus] || arrivalTime < eligibleBuses[bus]) {
+                    eligibleBuses[bus] = arrivalTime;
+                }
+            }
+        });
     }
     return eligibleBuses;
 }
